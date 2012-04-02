@@ -1,0 +1,6 @@
+*.o
+*.swp
+*~
+examples/hello/hello
+examples/point/point
+examples/ring/ring

@@ -13,7 +13,7 @@ func main() {
 	var message int
 	var tag int = 201
 
-	mpi.Initialize()
+	mpi.Init()
 	defer mpi.Finalize()
 
 	rank := mpi.Comm_rank(mpi.COMM_WORLD)

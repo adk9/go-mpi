@@ -5,7 +5,8 @@
 package mpi
 
 /*
-#cgo LDFLAGS: -lmpi
+#cgo LDFLAGS: -L/Users/adkulkar/opt/lib/ -lmpi
+#cgo CFLAGS: -I/Users/adkulkar/opt/include/
 
 #include <stdlib.h>
 #include <mpi.h>
@@ -62,7 +63,7 @@ type MPI_Status *C.MPI_Status
 var STATUS_IGNORE MPI_Status = nil
 var STATUSES_IGNORE MPI_Status = nil
 
-func Init(argv []string) {
+func Init() {
 	var argc int
 	C.MPI_Init( (*C.int)(unsafe.Pointer(&argc)), (***C.char)(unsafe.Pointer(&os.Args)))
 }
@@ -81,17 +82,24 @@ func Comm_size(comm MPI_Comm) int {
 
 func Send(buf interface{}, count int, datatype MPI_Datatype, dest int,
 	tag int, comm MPI_Comm) int {
-	ptr := buf
-	ret := C.MPI_Send((unsafe.Pointer(ptr)), C.int(count), datatype,
-		C.int(dest), C.int(tag), comm)
-	return int(ret)
+	switch ptr := buf.(type) {
+	case *int:
+		ret := C.MPI_Send(unsafe.Pointer(ptr), C.int(count), datatype,
+			C.int(dest), C.int(tag), comm)
+		return int(ret)
+	}
+	return 0
 }
 
-func Recv(buf *int, count int, datatype MPI_Datatype, source int, 
+func Recv(buf interface{}, count int, datatype MPI_Datatype, source int, 
 	tag int, comm MPI_Comm, status MPI_Status) int {
-	ret := C.MPI_Recv((unsafe.Pointer(buf)), C.int(count), datatype,
-		C.int(source), C.int(tag), comm, status)
-	return int(ret)
+	switch ptr := buf.(type) {
+	case *int:
+		ret := C.MPI_Recv(unsafe.Pointer(ptr), C.int(count), datatype,
+			C.int(source), C.int(tag), comm, status)
+		return int(ret)
+	}
+	return 0
 }
 
 func Barrier(comm MPI_Comm) int {
