@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// +build !mpich
+// #go build: !mpich
 
 package mpi
 
@@ -13,6 +13,12 @@ package mpi
 #include <mpi.h>
 */
 import "C"
+
+type Errno int32
+
+const papi_ok = C.MPI_SUCCESS
+
+
 
 var COMM_WORLD MPI_Comm = &C.ompi_mpi_comm_world
 var COMM_SELF MPI_Comm = &C.ompi_mpi_comm_self

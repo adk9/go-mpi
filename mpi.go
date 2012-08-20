@@ -20,12 +20,12 @@ import (
 )
 
 // Communicator
-type MPI_Comm *[0]uint8
+type MPI_Comm C.MPI_Comm
 
 // Datatypes
-type MPI_Datatype *[0]uint8
+type MPI_Datatype C.MPI_Datatype
 
-type MPI_Status *C.MPI_Status
+type MPI_Status C.MPI_Status
 
 var STATUS_IGNORE MPI_Status = nil
 var STATUSES_IGNORE MPI_Status = nil
